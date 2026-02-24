@@ -144,3 +144,44 @@ A fully autonomous safety solution combining:
 - IoT architecture (MQTT)
 - Real-time monitoring
 - Historical data supervision
+
+---
+
+## 13. How to Run the Project
+
+### 1. Arduino Side
+
+- Install Arduino IDE
+- Install TinyGPS++ library
+- Flash `arduino/gps_satellite_beacon.ino` to the microcontroller
+- Connect:
+  - GPS module to Serial1
+  - Satellite module to Serial2
+- Power the system
+- Wait for AT+JOIN confirmation
+
+### 2. Node-RED Side
+
+- Install Node-RED
+- Install required modules:
+  - node-red-dashboard
+  - node-red-contrib-web-worldmap
+  - node-red-contrib-influxdb
+  - node-red-node-serialport
+- Import `node-red/flow.json`
+- Deploy
+
+### 3. InfluxDB
+
+- Create bucket: `gps`
+- Create measurement: `gps_tracking`
+- Ensure Node-RED InfluxDB node points to:
+  - http://localhost:8086
+
+### 4. Grafana
+
+- Connect Grafana to InfluxDB
+- Query measurement `gps_tracking`
+- Enable auto-refresh (10 seconds)
+
+After deployment, GPS positions will be transmitted via satellite and visualized in real-time.
